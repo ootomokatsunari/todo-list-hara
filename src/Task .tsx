@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
 import './TaskForm.css';
 
+
+type Task = {
+  id: number;
+  title: string;
+  checked: boolean;
+  priority: 'high' | 'middle' | 'low';
+  date: string; // 追加
+  deadline: string; // 追加
+};
+
 type TaskFormProps = {
   onSubmit: (title: string, priority: 'high' | 'middle' | 'low', deadline: string) => void;
 };

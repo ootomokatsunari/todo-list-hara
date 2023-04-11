@@ -1,26 +1,47 @@
 import React, { useState } from 'react';
 import './App.css';
-import { Task } from './types';
+import Task from "./types"
 import Card from './Card';
 import Dialog from './EditDialog';
+
+
+
 
 function App() {
   const [inputValue, setInputValue] = useState('');
   const [inputPriority, setInputPriority] = useState<'high' | 'middle' | 'low'>('low');
-  const [todos, setTodos] = useState<Task[]>([{ id: 1, title: 'Reactの勉強', checked: false, priority: 'high' },
-  { id: 2, title: '洗濯', checked: false, priority: 'middle' },
-  { id: 3, title: '買い物', checked: false, priority: 'low' },]);
+  const [inputDate, setInputDate] = useState('');
+  const [inputDeadline, setInputDeadline] = useState('');
+  const [todos, setTodos] = useState<Task[]>([
+    { id: 1, title: 'Reactの勉強', checked: false, priority: 'high', date: '', deadline: '' },
+    { id: 2, title: '洗濯', checked: false, priority: 'middle', date: '', deadline: '' },
+    { id: 3, title: '買い物', checked: false, priority: 'low', date: '', deadline: '' },
+  ]);
+  
 
   const [id, setId] = useState<number>(0);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedTask, setSelectedTask] = useState<Task>({ id: 0, title: '', checked: false, priority: 'low' }); // selectedTask の型アノテーションを修正
+  const [selectedTask, setSelectedTask] = useState<Task>({
+    id: 0,
+    title: '',
+    checked: false,
+    priority: 'low',
+    date: '',
+    deadline: ''
+  });
+  
+  const [selectedDate, setSelectedDate] = useState('');
+  
 
-  type Todo = {
-    title: string;
-    id: number;
-    checked: boolean;
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedDate(e.target.value);
   };
 
+  const handleDeadlineChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputDeadline(e.target.value);
+  };
+
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
@@ -38,7 +59,9 @@ function App() {
       id: id,
       title: inputValue,
       checked: false,
-      priority: selectedPriority
+      priority: selectedPriority,
+      date: selectedDate,
+      deadline: inputDeadline,
     };
 
     setTodos(prevTodos => [...prevTodos, newTask]);
@@ -48,7 +71,9 @@ function App() {
 };
 
 const handleEdit = (id: number, newValue: string, newPriority: 'high' | 'middle' | 'low') => {
-  const newTodos = todos.map(todo => (todo.id === id ? { ...todo, title: newValue, priority: newPriority } : todo));
+  const newTodos = todos.map(todo => 
+    todo.id === id ? { ...todo, title: newValue, priority: newPriority } : todo
+    );
   setTodos(newTodos);
 };
 
@@ -72,11 +97,26 @@ const handleEdit = (id: number, newValue: string, newPriority: 'high' | 'middle'
   };
 
   const handleDelete = (id: number) => {
-    const newTodos = todos.filter(todo => todo.id !== id);
+    const newTodos = todos.filter((todo) => todo.id !== id);
     setTodos(newTodos);
-    setSelectedTask({ id: 0, title: '', checked: false, priority: 'low' }); // 選択されたタスクを初期化
+    setSelectedTask({ id: 0, title: '', checked: false, priority: 'low', date: '', deadline: '' }); // 選択されたタスクを初期化
   };
+  
 
+  const formatDate = (date: string) => {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = ('0' + (d.getMonth() + 1)).slice(-2);
+    const day = ('0' + d.getDate()).slice(-2);
+    return `${year}年${month}月${day}日`;
+  };
+  const isBeforeDeadline = (date: string, deadline: string) => {
+    const today = new Date();
+    const d = new Date(deadline);
+    d.setDate(d.getDate() + 1);
+    return today <= d;
+  };
+  
   return (
     <div className="App">
       <div>
@@ -91,21 +131,40 @@ const handleEdit = (id: number, newValue: string, newPriority: 'high' | 'middle'
             className="inputText"
           />
               <label htmlFor="priority">優先順位</label>
+              
                 <select
                 id="priority"
                 value={selectedTask.priority}
                 onChange={(e) =>
-                  setSelectedTask((prevTask) => ({
+                  setSelectedTask((prevTask: Task) => ({
                     ...prevTask,
                     priority: e.target.value as 'high' | 'middle' | 'low',
                   }))
+                  
                 }
                 >
                   <option value="low">低</option>
                   <option value="middle">中</option>
                   <option value="high">高</option>
                 </select>
-          <input type="submit" value="作成" className="submitButton" />
+                <div>
+      <h2>日付を入力する</h2>
+      <label htmlFor="dateInput">日付を選択してください:</label>
+      <input type="date"
+       id="dateInput"
+        value={selectedDate}
+         onChange={handleDateChange} />
+           </div>
+           <label htmlFor="deadline">期限</label>
+           <input
+         type="date"
+         id="deadline"
+         value={inputDeadline}
+         onChange={handleDeadlineChange}
+       />
+          <input type="submit"
+           value="作成" 
+           className="submitButton" />
         </form>
         <div className="cardList">
           {todos.map(item => (
@@ -113,14 +172,18 @@ const handleEdit = (id: number, newValue: string, newPriority: 'high' | 'middle'
             key={item.id}
             title={item.title}
             checked={item.checked}
-            priority={item.priority} // 追加した優先度の値をカードに渡す
+            priority={item.priority}
+            date={item.date}
+            deadline={item.deadline}
             onEdit={(newValue: string) => handleEdit(item.id, newValue, item.priority)}
             onChecked={() => handleChecked(item.id)}
             onDelete={() => handleDelete(item.id)}
             onOpenEditDialog={() => handleOpenEditDialog(item)}
-          />
-          ))}
-           <Dialog isOpen={isDialogOpen} onClose={handleCloseDialog} selectedTask={selectedTask} onEdit={handleEdit} />
+            isBeforeDeadline={isBeforeDeadline(item.date, item.deadline)}
+            />
+           ))}
+           <Dialog isOpen={isDialogOpen} onClose={handleCloseDialog} selectedTask=
+           {selectedTask} onEdit={handleEdit} />
 
 
         </div>

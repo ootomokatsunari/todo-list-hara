@@ -1,10 +1,15 @@
-export interface Task {
+import { types } from "util";
+
+  type Priority = "high" | "middle" | "low";
+
+  type Task = {
     id: number;
     title: string;
     checked: boolean;
-    priority: 'high' | 'middle' | 'low'; 
-  }
-  type Priority = "high" | "middle" | "low";
+    priority: 'high' | 'middle' | 'low';
+    date: string;
+    deadline: string;
+  };
 
 interface CardProps {
   key: number;
@@ -24,3 +29,4 @@ interface EditDialogProps {
   priority: 'high' | 'middle' | 'low'; // 追加
 }
 
+export default Task 

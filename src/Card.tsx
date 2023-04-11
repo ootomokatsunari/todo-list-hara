@@ -6,11 +6,14 @@ import './Card.css';
 type CardProps = {
   title: string;
   checked: boolean;
-  priority: 'high' | 'middle' | 'low'; // 優先度の値を追加する
+  priority: 'high' | 'middle' | 'low';
+  date: string; // 追加
+  deadline: string; // 追加
   onEdit: (newValue: string) => void;
   onChecked: () => void;
   onDelete: () => void;
   onOpenEditDialog: () => void;
+  isBeforeDeadline: boolean;
 };
 
 const Card = ({ title, checked,priority,onEdit, onChecked, onDelete,onOpenEditDialog}: CardProps) => {
