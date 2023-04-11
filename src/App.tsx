@@ -10,7 +10,6 @@ import Dialog from './EditDialog';
 function App() {
   const [inputValue, setInputValue] = useState('');
   const [inputPriority, setInputPriority] = useState<'high' | 'middle' | 'low'>('low');
-  const [inputDate, setInputDate] = useState('');
   const [inputDeadline, setInputDeadline] = useState('');
   const [todos, setTodos] = useState<Task[]>([
     { id: 1, title: 'Reactの勉強', checked: false, priority: 'high', date: '', deadline: '' },
@@ -147,14 +146,7 @@ const handleEdit = (id: number, newValue: string, newPriority: 'high' | 'middle'
                   <option value="middle">中</option>
                   <option value="high">高</option>
                 </select>
-                <div>
       <h2>日付を入力する</h2>
-      <label htmlFor="dateInput">日付を選択してください:</label>
-      <input type="date"
-       id="dateInput"
-        value={selectedDate}
-         onChange={handleDateChange} />
-           </div>
            <label htmlFor="deadline">期限</label>
            <input
          type="date"
@@ -175,8 +167,6 @@ const handleEdit = (id: number, newValue: string, newPriority: 'high' | 'middle'
             priority={item.priority}
             date={item.date}
             deadline={item.deadline}
-            onEdit={(newValue: string) => handleEdit(item.id, newValue, item.priority)}
-            onChecked={() => handleChecked(item.id)}
             onDelete={() => handleDelete(item.id)}
             onOpenEditDialog={() => handleOpenEditDialog(item)}
             isBeforeDeadline={isBeforeDeadline(item.date, item.deadline)}
