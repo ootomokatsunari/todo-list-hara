@@ -1,1 +1,10 @@
-node_modules
+# Node.js
+node_modules/
+
+# キャッシュファイル
+*.log
+*.gz
+
+# その他
+.DS_Store
+

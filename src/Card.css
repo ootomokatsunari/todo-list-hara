@@ -6,6 +6,9 @@
     margin-bottom: 20px;
     display: flex;
     align-items: center;
+    width: 800px;
+    height: 100px;
+    position: relative;
   }
   
   .card.checked {
@@ -43,3 +46,41 @@
   .card__delete-button:active {
     transform: translateY(1px);
   }
+
+  .cardCompleteButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color:greenyellow;
+    color: #ddd;
+    font-weight: bold;
+  width: 80px;
+  height: 40px;
+  font-size: 16px;
+  }
+
+  .cardDeleteButton {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: #f00;
+    color: #ddd;
+    font-weight: bold;
+  width: 80px;
+  height: 40px;
+  font-size: 16px;
+  }
+  
+  .cardEditButton {
+      position: absolute;
+      bottom: 10px;
+      right: 160px;
+      background-color:blue;
+      color:white;
+      font-weight: bold;
+      width: 80px;
+      height: 40px;
+      font-size: 16px;
+    }
+    
+  

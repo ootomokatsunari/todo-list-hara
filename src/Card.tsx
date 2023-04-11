@@ -1,56 +1,80 @@
 import React, { useState } from 'react';
 import './Card.css';
 
+
+
 type CardProps = {
   title: string;
   checked: boolean;
-  onSave: (newValue: string) => void;
+  priority: 'high' | 'middle' | 'low'; // 優先度の値を追加する
+  onEdit: (newValue: string) => void;
   onChecked: () => void;
   onDelete: () => void;
+  onOpenEditDialog: () => void;
 };
 
-const Card: React.FC<CardProps> = ({ title, checked, onSave, onChecked, onDelete }) => {
-  const [showModal, setShowModal] = useState(false);
-  const [editValue, setEditValue] = useState(title);
+const Card = ({ title, checked,priority,onEdit, onChecked, onDelete,onOpenEditDialog}: CardProps) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [inputValue, setInputValue] = useState(title);
 
-  const handleEdit = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEditValue(e.target.value);
+  
+  const handleCancelClick = () => {
+    setIsEditing(false);
+    setInputValue(title);
   };
 
-  const handleSave = () => {
-    onSave(editValue);
-    setShowModal(false);
+  const handleSaveClick = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onEdit(inputValue);
+    setIsEditing(false);
   };
 
-  const handleModalClose = () => {
-    setShowModal(false);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
   };
 
   return (
     <div className="card">
-      <input
-        type="text"
-        value={editValue}
-        onChange={handleEdit}
-        className="card__input"
-        disabled={checked}
-      />
-      <button onClick={onDelete} className="card__delete-button">
-        削除
-      </button>
-      <button onClick={() => setShowModal(true)} className="card__edit-button">
-        編集
-      </button>
-      {showModal && (
-        <div className="card__modal">
-          <div className="card__modal-content">
-            <input type="text" value={editValue} onChange={handleEdit} />
-            <button onClick={handleSave}>変更</button>
-            <button onClick={handleModalClose}>閉じる</button>
-          </div>
-        </div>
+  <div className="cardContent">
+    <div className="cardTitle">
+      {checked ? (
+        <del>{title}</del>
+      ) : (
+        <span onClick={onChecked}>{title}</span>
       )}
     </div>
+    <div className="cardPriority">
+          <span>優先度: </span>
+          <span>{priority}</span>
+        </div>
+    <div className="cardEdit">
+      <button onClick={onOpenEditDialog} className="cardEditButton">
+        編集
+      </button>
+      <button onClick={onDelete} className="cardDeleteButton">
+        削除
+      </button>
+    </div>
+  </div>
+  {isEditing && (
+    <div className="dialog">
+      <h3>タスク修正</h3>
+      <form onSubmit={handleSaveClick}>
+        <label htmlFor="editInput">タイトル</label>
+        <input
+          type="text"
+          id="editInput"
+          value={inputValue}
+          onChange={handleInputChange}
+        />
+        <button type="submit">更新</button>
+        <button type="button" onClick={handleCancelClick}>
+          閉じる
+        </button>
+      </form>
+    </div>
+  )}
+</div>
   );
 };
 
