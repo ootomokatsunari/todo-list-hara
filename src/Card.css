@@ -1,0 +1,45 @@
+.card {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .card.checked {
+    background-color: #ddd;
+  }
+  
+  .card__title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 20px;
+    cursor: pointer;
+  }
+  
+  .card__input {
+    flex: 1;
+  }
+  
+  .card__checkbox {
+    margin-right: 10px;
+  }
+  
+  .card__delete-button {
+    background-color: transparent;
+    border: none;
+    color: #f00;
+    font-size: 18px;
+    cursor: pointer;
+    margin-left: auto;
+  }
+  
+  .card__delete-button:hover {
+    text-decoration: underline;
+  }
+  
+  .card__delete-button:active {
+    transform: translateY(1px);
+  }
