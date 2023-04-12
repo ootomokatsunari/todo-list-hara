@@ -4,11 +4,13 @@ import Task from "./types"
 import Card from './Card';
 import Dialog from './EditDialog';
 import Button from './Button';
+import { log } from 'console';
 
 function App() {
   const [inputValue, setInputValue] = useState('');
   const [inputPriority, setInputPriority] = useState<'high' | 'middle' | 'low'>('low');
   const [inputDeadline, setInputDeadline] = useState('');
+  const [error, setError] = useState('');
   const [todos, setTodos] = useState<Task[]>([
     { id: 1, title: 'Reactの勉強', checked: false, priority: 'high', date: '', deadline: '' },
     { id: 2, title: '洗濯', checked: false, priority: 'middle', date: '', deadline: '' },
@@ -18,6 +20,7 @@ function App() {
 
   const [id, setId] = useState<number>(0);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [count, setCount] = useState<number>(0);
   const [selectedTask, setSelectedTask] = useState<Task>({
     id: 0,
     title: '',
@@ -37,11 +40,40 @@ function App() {
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
+    setCount(e.target.value.length);
   };
+
+  const handleCheckTaskContent = () => {
+    if (inputValue.trim() === '') {
+      let errorMsg = '';
+  
+      if (!inputValue) {
+        errorMsg = 'タスク内容は必須です。';
+      }
+  
+      if (inputValue.length > 50) {
+        alert('タスク内容は50文字以内で入力してください');
+        return;
+      }
+    
+      if (inputDeadline !== '') {
+        const today = new Date().toISOString().slice(0, 10);
+        if (inputDeadline < today) {
+          alert('期限は当日または未来日を指定してください');
+          return;
+        }
+  
+        setError(errorMsg);
+      }
+    }
+  };
+  
+    
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const selectedPriority: 'low' | 'middle' | 'high' = (e.currentTarget[1]as HTMLSelectElement).value as 'low' | 'middle' | 'high';
+    handleCheckTaskContent();
 
     const newTask: Task = {
       id: id,
@@ -68,6 +100,7 @@ const handleEdit = (id: number, newValue: string, newPriority: 'high' | 'middle'
   
 
   const handleOpenEditDialog = (task: Task) => {
+    // console.log(task)
     setSelectedTask(task);
     setIsDialogOpen(true);
   };
@@ -103,7 +136,7 @@ const handleEdit = (id: number, newValue: string, newPriority: 'high' | 'middle'
       <div>
         <h2>Todoリスト with Typescript</h2>
         <form onSubmit={handleSubmit}>
-          <label htmlFor="todoInput">タスクを追加する</label>
+          <label htmlFor="todoInput">タスクを追加する<span className="required">*</span></label>
           <input
             type="text"
             id="todoInput"
@@ -111,6 +144,8 @@ const handleEdit = (id: number, newValue: string, newPriority: 'high' | 'middle'
             onChange={handleChange}
             className="inputText"
           />
+            <p>文字数: {count}/50</p> 
+           {error && <div className="error">{error}</div>}
               <label htmlFor="priority">優先順位</label>
               
                 <select
@@ -129,7 +164,7 @@ const handleEdit = (id: number, newValue: string, newPriority: 'high' | 'middle'
                   <option value="high">高</option>
                 </select>
       <h2>日付を入力する</h2>
-           <label htmlFor="deadline">期限</label>
+           <label htmlFor="deadline">期限<span className="required">*</span></label>
            <input
          type="date"
          id="deadline"
@@ -159,13 +194,13 @@ const handleEdit = (id: number, newValue: string, newPriority: 'high' | 'middle'
            onClose={handleCloseDialog} 
            selectedTask={selectedTask}
            onEdit={handleEdit} 
-           deadline={inputDeadline}/>
+           />
 
 
         </div>
       </div>
     </div>
   );
-}
+};
 
-export default App;
+export default App

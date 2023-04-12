@@ -37,8 +37,11 @@
   }
 }
 
-label[for="priority"] {
+.label[for="priority"] {
   position: relative;
   top: -20px;
 }
 
+.required {
+  color: red;
+}
