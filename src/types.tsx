@@ -22,11 +22,13 @@ interface CardProps {
 }
 
 interface EditDialogProps {
-  isOpen: boolean;
-  onClose: () => void;
-  selectedTask: Task;
-  onEdit: (id: number, newValue: string) => void;
-  priority: 'high' | 'middle' | 'low'; // 追加
-}
+    isOpen: boolean;
+    onClose: () => void;
+    selectedTask: Task;
+    onEdit: (id: number, newValue: string, newDeadline: string) => void; // 第三引数に期限を追加
+    priority: 'high' | 'middle' | 'low';
+  }
+  
+
 
 export default Task 

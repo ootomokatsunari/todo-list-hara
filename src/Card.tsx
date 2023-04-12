@@ -1,3 +1,4 @@
+import Button from './Button'
 import './Card.css';
 
 type CardProps = {
@@ -18,7 +19,7 @@ const Card = ({ title, checked,priority, deadline, onDelete,onOpenEditDialog}: C
   const isDeadlinePassed = deadlineDate.getFullYear() === today.getFullYear() &&
   deadlineDate.getMonth() === today.getMonth() &&
   deadlineDate.getDate() === today.getDate() - 1;
-
+  
   return (
     <div className="card">
   <div className="cardContent">
@@ -34,12 +35,12 @@ const Card = ({ title, checked,priority, deadline, onDelete,onOpenEditDialog}: C
         </span>
         </div>
     <div className="cardEdit">
-      <button onClick={onOpenEditDialog} className="cardEditButton">
+      <Button onClick={onOpenEditDialog} className="cardEditButton">
         編集
-      </button>
-      <button onClick={onDelete} className="cardDeleteButton">
+      </Button>
+      <Button onClick={onDelete} className="cardDeleteButton">
         削除
-      </button>
+      </Button>
     </div>
   </div>
   );};

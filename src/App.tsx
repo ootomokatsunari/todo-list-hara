@@ -3,9 +3,7 @@ import './App.css';
 import Task from "./types"
 import Card from './Card';
 import Dialog from './EditDialog';
-
-
-
+import Button from './Button';
 
 function App() {
   const [inputValue, setInputValue] = useState('');
@@ -43,7 +41,6 @@ function App() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const selectedPriority: 'low' | 'middle' | 'high' = (e.currentTarget[1]as HTMLSelectElement).value as 'low' | 'middle' | 'high';
 
     const newTask: Task = {

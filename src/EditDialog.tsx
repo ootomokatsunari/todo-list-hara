@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import './Dialog.css';
 import './Card'
-
+import Button from './Button'
 
 type EditDialogProps = {
   isOpen: boolean;
@@ -10,6 +10,7 @@ type EditDialogProps = {
   onEdit: (id: number, newValue: string, newPriority: 'high' | 'middle' | 'low') => void;
   deadline:string;
 };
+
 
 
 const EditDialog = ({ isOpen, onClose, selectedTask, onEdit,deadline }: EditDialogProps) => {
@@ -24,6 +25,8 @@ const EditDialog = ({ isOpen, onClose, selectedTask, onEdit,deadline }: EditDial
   useEffect(() => {
     setInputValue(selectedTask.title);
   }, [selectedTask]);
+
+
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -64,12 +67,12 @@ const EditDialog = ({ isOpen, onClose, selectedTask, onEdit,deadline }: EditDial
               </div>
               </div>
               <div className="dialog-footer">
-              <button type="button" className="close-button" onClick={onClose}>
+              <Button type="button" className="close-button" onClick={onClose}>
               閉じる
-              </button>
-              <button type="submit" className="submit-button">
+              </Button>
+              <Button type="submit" className="submit-button" onClick={() => {}}>
                更新
-              </button>
+              </Button>
               </div>
             </form>
           </div>
