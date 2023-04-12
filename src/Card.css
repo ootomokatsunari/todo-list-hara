@@ -83,4 +83,12 @@
       font-size: 16px;
     }
     
-  
+    .deadline-date{
+      color: black;
+    }
+
+    .isDeadlinePassed {
+      color: #f00;
+    }
+    
+    

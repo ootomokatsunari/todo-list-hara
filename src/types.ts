@@ -7,7 +7,7 @@ import { types } from "util";
     title: string;
     checked: boolean;
     priority: 'high' | 'middle' | 'low';
-    date: string;
+    date: string;//追加
     deadline: string;
   };
 

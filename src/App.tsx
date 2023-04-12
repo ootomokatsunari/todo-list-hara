@@ -32,21 +32,13 @@ function App() {
   const [selectedDate, setSelectedDate] = useState('');
   
 
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedDate(e.target.value);
-  };
-
   const handleDeadlineChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputDeadline(e.target.value);
+    setInputDeadline(e.target.value); //変更をstateに格納
   };
 
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
-  };
-
-  const handlePriorityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setInputPriority(e.target.value as 'high' | 'middle' | 'low');
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -86,13 +78,6 @@ const handleEdit = (id: number, newValue: string, newPriority: 'high' | 'middle'
 
   const handleCloseDialog = () => {
     setIsDialogOpen(false);
-  };
-
-  const handleChecked = (id: number) => {
-    const newTodos = todos.map(todo =>
-      todo.id === id ? { ...todo, checked: !todo.checked } : todo
-    );
-    setTodos(newTodos);
   };
 
   const handleDelete = (id: number) => {
@@ -172,8 +157,12 @@ const handleEdit = (id: number, newValue: string, newPriority: 'high' | 'middle'
             isBeforeDeadline={isBeforeDeadline(item.date, item.deadline)}
             />
            ))}
-           <Dialog isOpen={isDialogOpen} onClose={handleCloseDialog} selectedTask=
-           {selectedTask} onEdit={handleEdit} />
+
+           <Dialog isOpen={isDialogOpen} 
+           onClose={handleCloseDialog} 
+           selectedTask={selectedTask}
+           onEdit={handleEdit} 
+           deadline={inputDeadline}/>
 
 
         </div>

@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from 'react';
 import './Dialog.css';
-
+import './Card'
 
 
 type EditDialogProps = {
@@ -8,11 +8,18 @@ type EditDialogProps = {
   onClose: () => void;
   selectedTask: { id: number; title: string; priority: 'high' | 'middle' | 'low' };
   onEdit: (id: number, newValue: string, newPriority: 'high' | 'middle' | 'low') => void;
+  deadline:string;
 };
 
 
-const EditDialog = ({ isOpen, onClose, selectedTask, onEdit }: EditDialogProps) => {
+const EditDialog = ({ isOpen, onClose, selectedTask, onEdit,deadline }: EditDialogProps) => {
   const [inputValue, setInputValue] = useState(selectedTask.title);
+  const deadlineDate = new Date(deadline);
+  const today = new Date();
+  const isDeadlinePassed = deadlineDate.getFullYear() === today.getFullYear() &&
+  deadlineDate.getMonth() === today.getMonth() &&
+  deadlineDate.getDate() === today.getDate() - 1;
+
 
   useEffect(() => {
     setInputValue(selectedTask.title);
@@ -52,6 +59,8 @@ const EditDialog = ({ isOpen, onClose, selectedTask, onEdit }: EditDialogProps) 
               <div className="form-group">
               <label htmlFor="priority">優先度</label>
                <div>{selectedTask.priority}</div>
+               <span className={`deadline-date ${isDeadlinePassed ? "isDeadlinePassed" : ""}`}>
+               期限{deadline}</span>
               </div>
               </div>
               <div className="dialog-footer">

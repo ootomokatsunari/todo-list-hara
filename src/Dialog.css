@@ -96,3 +96,11 @@
   background-color: blue;
   color: white;
 }
+
+.deadline-date{
+  color: black;
+}
+
+.isDeadlinePassed {
+  color: #f00;
+}
