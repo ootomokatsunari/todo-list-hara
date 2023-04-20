@@ -1,21 +1,25 @@
-import React, { useState } from 'react';
-import './TaskForm.css';
+import React, { useState } from "react";
+import "./TaskForm.css";
 
 type TaskFormProps = {
-  onSubmit: (title: string, priority: 'high' | 'middle' | 'low', deadline: string) => void;
+  onSubmit: (
+    title: string,
+    priority: "high" | "middle" | "low",
+    deadline: string
+  ) => void;
 };
 
 const TaskForm = ({ onSubmit }: TaskFormProps) => {
-  const [inputValue, setInputValue] = useState('');
-  const [priority, setPriority] = useState<'high' | 'middle' | 'low'>('low');
-  const [deadline, setDeadline] = useState('');
+  const [inputValue, setInputValue] = useState("");
+  const [priority, setPriority] = useState<"high" | "middle" | "low">("low");
+  const [deadline, setDeadline] = useState("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit(inputValue, priority, deadline);
-    setInputValue('');
-    setPriority('low');
-    setDeadline(''); // 追加
+    setInputValue("");
+    setPriority("low");
+    setDeadline(""); // 追加
   };
 
   // 期限が前日かどうかを判定する関数
@@ -23,7 +27,10 @@ const TaskForm = ({ onSubmit }: TaskFormProps) => {
     const deadlineDate = new Date(deadline);
     const nowDate = new Date();
     nowDate.setDate(nowDate.getDate() + 1); // 今日の日付を1日進めたもの
-    return deadlineDate.getTime() < nowDate.getTime() && deadlineDate.getTime() >= new Date().getTime();
+    return (
+      deadlineDate.getTime() < nowDate.getTime() &&
+      deadlineDate.getTime() >= new Date().getTime()
+    );
   };
 
   return (
@@ -39,7 +46,13 @@ const TaskForm = ({ onSubmit }: TaskFormProps) => {
       </div>
       <div className="form-group">
         <label htmlFor="priority">優先度</label>
-        <select id="priority" value={priority} onChange={(e) => setPriority(e.target.value as 'high' | 'middle' | 'low')}>
+        <select
+          id="priority"
+          value={priority}
+          onChange={(e) =>
+            setPriority(e.target.value as "high" | "middle" | "low")
+          }
+        >
           <option value="high">高</option>
           <option value="middle">中</option>
           <option value="low">低</option>
@@ -47,16 +60,22 @@ const TaskForm = ({ onSubmit }: TaskFormProps) => {
       </div>
       <div className="form-group">
         <label htmlFor="deadline">期限</label>
-        <input type="date" id="deadline" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
+        <input
+          type="date"
+          id="deadline"
+          value={deadline}
+          onChange={(e) => setDeadline(e.target.value)}
+        />
       </div>
       <div className="form-buttons">
         <button type="submit" className="submit-button">
           追加
         </button>
       </div>
-      {deadline && isDeadlineYesterday(deadline) && ( // 期限が前日の場合に赤文字で表示
-        <div className="form-warning">期限が明日に迫っています！</div>
-      )}
+      {deadline &&
+        isDeadlineYesterday(deadline) && ( // 期限が前日の場合に赤文字で表示
+          <div className="form-warning">期限が明日に迫っています！</div>
+        )}
     </form>
   );
 };
