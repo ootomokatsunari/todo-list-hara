@@ -1,6 +1,3 @@
-import { log } from "console";
-import { totalmem } from "os";
-
 function App() {
   //1.単純な足し算関数を作成する
   const add = (number1: number, number2: number) => {
@@ -42,8 +39,8 @@ function App() {
   // };
   // console.log(user.name + "," + user.age);
 
-  const UserInfo = (user: { name: any; age: any }) => {
-    console.log(user.name + "," + user.age);
+  const UserInfo = (user: { name: string; age: number }) => {
+    console.log(user.name, +user.age);
   };
 
   const user = {
