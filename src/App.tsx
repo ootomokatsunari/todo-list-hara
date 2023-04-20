@@ -82,16 +82,6 @@ function App() {
   );
 
   //7.オブジェクトの配列を指定されたプロパティでソートする関数を作成
-  // const popcorn = [
-  //   { name: "caramel", price: 200 },
-  //   { name: "solt", price: 150 },
-  //   { name: "butter", price: 180 },
-  //   { name: "hajiku", price: 3000 },
-  // ];
-  // popcorn.sort(function (a, b) {
-  //   return a.price - b.price;
-  // });
-  // console.log(JSON.stringify(popcorn));
 
   const popcorn = () => [
     { name: "caramel", price: 200 },
@@ -105,14 +95,16 @@ function App() {
   });
   console.log(JSON.stringify(popcorn()));
 
-  //8.配列を指定された数値で分割する関数を作成する
-  const number = () => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  const newNumber = [];
+  //  8.配列を指定された数値で分割する関数を作成する
 
-  while (number().length > 0) {
+  const number = () => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,];
+   const newNumber: number[][] = [];
+
+   const hoge=()=>{
+   while (number().length > 0) {
     newNumber.push(number().splice(0, 3));
-  }
-
+   }
+   }
   console.log(newNumber);
 
   return <div></div>;
