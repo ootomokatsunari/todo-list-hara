@@ -22,22 +22,10 @@ function App() {
     return total;
   };
   var nums = [0, 1, 2, 3, 4],
-    result = sum(nums);
-  console.log(result);
+    ancwer = sum(nums);
+  console.log(ancwer);
 
   //4.引数がオブジェクトのプロパティを参照する関数を作成
-
-  // const info = {
-  //   name: "田中 太郎",
-  //   age: 30,
-  //   japan: true,
-  //   hobby: ["読書", "ウォーキング", "音楽"],
-  // };
-  // const user = {
-  //   name: "田中太郎",
-  //   age: 30,
-  // };
-  // console.log(user.name + "," + user.age);
 
   const UserInfo = (user: { name: string; age: number }) => {
     console.log(user.name, +user.age);
@@ -51,9 +39,6 @@ function App() {
   UserInfo(user);
 
   //5.配列の中で最大値を返す関数を作成
-  // const array = [2, 3, 56, 67, 88, 120];
-  // const max = Math.max(...array);
-  // console.log(max);
 
   const getMax = (array: number[]) => {
     return Math.max(...array);
@@ -62,14 +47,9 @@ function App() {
   console.log(getMax([2, 3, 56, 67, 88, 120]));
 
   //6.オブジェクトの配列から指定されたプロパティの値を抽出する関数を作成
-  // const fruits = [
-  //   { name: "apple", price: 200 },
-  //   { name: "banana", price: 100 },
-  // ];
-  // console.log(fruits[1].price);
 
   const fruit = (
-    fruits: { price: any }[] | { name: string; price: number }[]
+    fruits: { price: number }[] | { name: string; price: number }[]
   ) => {
     return fruits[1].price;
   };
@@ -97,15 +77,18 @@ function App() {
 
   //  8.配列を指定された数値で分割する関数を作成する
 
-  const number = () => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,];
-   const newNumber: number[][] = [];
-
-   const hoge=()=>{
-   while (number().length > 0) {
-    newNumber.push(number().splice(0, 3));
-   }
-   }
-  console.log(newNumber);
+  const splitArray = (array: number[], size: number): number[][] => {
+    const result: number[][] = [];
+    for (let i = 0; i < array.length; i += size) {
+      const slice = array.slice(i, i + size);
+      result.push(slice);
+    }
+    return result;
+  };
+  const array = [1, 2, 3, 4, 5, 6, 7, 8];
+  const size = 3;
+  const result = splitArray(array, size);
+  console.log(result); // [[1, 2, 3], [4, 5, 6], [7, 8]]
 
   return <div></div>;
 }
