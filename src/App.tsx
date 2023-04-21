@@ -63,17 +63,17 @@ function App() {
 
   //7.オブジェクトの配列を指定されたプロパティでソートする関数を作成
 
-  const popcorn = () => [
+  const popcorn = [
     { name: "caramel", price: 200 },
     { name: "solt", price: 150 },
     { name: "butter", price: 180 },
     { name: "hajiku", price: 3000 },
   ];
 
-  popcorn().sort(function (a: { price: number }, b: { price: number }) {
+  popcorn.sort(function (a: { price: number }, b: { price: number }) {
     return a.price - b.price;
   });
-  console.log(JSON.stringify(popcorn()));
+  console.log(JSON.stringify(popcorn));
 
   //  8.配列を指定された数値で分割する関数を作成する
 
